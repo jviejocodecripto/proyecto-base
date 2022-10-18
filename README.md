@@ -3,7 +3,6 @@
 ### frontend (react)
 
 
-
 ### backend (nodejs)
 
 En la parte del backend tenemos que hacer operaciones crear borrar directorios.
