@@ -8,7 +8,6 @@ const node = require("./router-node")
 const faucet = require("./router-faucet")
 
 app.use(morgan('combined'))
-
 app.use(cors())
 
 app.use(express.static("public"))
