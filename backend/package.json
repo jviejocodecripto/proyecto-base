@@ -4,12 +4,14 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "start": "npx nodemon app.js"
+    "start": "npx nodemon --ignore ETH app.js"
   },
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.18.2",
     "morgan": "^1.10.0",
+    "ps-list": "^8.1.0",
+    "ps-node": "^0.1.6",
     "web3": "^1.8.0"
   }
 }

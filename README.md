@@ -137,3 +137,4 @@ subproceso.unref();
 param ($network)
 Get-Process -Name geth | Select-Object -property id | Stop-Process -Force; Remove-Item .\eth$network -Recurse
 ```
+https://yenhuang.gitbooks.io/blockchain/content/interact-with-private-chain-on-android/build-the-private-chain.html
