@@ -142,7 +142,7 @@ router.post("/create/:network/:node", (req, res) => {
         }
         const resultado = launchNode(NUMERO_NETWORK, NUMERO_NODO, DIR_NODE,
             NETWORK_DIR, IPCPATH, NETWORK_CHAINID,
-            HTTP_PORT, CUENTA, PORT, AUTHRPC_PORT, BALANCE.CUENTAS_ALLOC)
+            HTTP_PORT, CUENTA, PORT, AUTHRPC_PORT, BALANCE, CUENTAS_ALLOC)
 
         res.send(resultado)
     })
@@ -176,7 +176,7 @@ router.post("/add/:network/:node", (req, res) => {
         }
         const resultado = launchNode(NUMERO_NETWORK, NUMERO_NODO, DIR_NODE,
             NETWORK_DIR, IPCPATH, NETWORK_CHAINID,
-            HTTP_PORT, CUENTA, PORT, AUTHRPC_PORT, BALANCE.CUENTAS_ALLOC)
+            HTTP_PORT, CUENTA, PORT, AUTHRPC_PORT, BALANCE, CUENTAS_ALLOC)
         res.send(resultado)
     })
 

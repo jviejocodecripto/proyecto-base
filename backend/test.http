@@ -1,7 +1,7 @@
-POST http://localhost:3333/network/create/15/1 
+POST http://localhost:3333/network/create/2/1 
 
 ###
-POST http://localhost:3333/network/add/15/3
+POST http://localhost:3333/network/add/2/2
 
 ###
 POST http://localhost:3333/network/add/2/3
@@ -10,10 +10,10 @@ POST http://localhost:3333/network/add/2/3
 DELETE http://localhost:3333/node/2/1 HTTP/1.1
 
 ###
-delete http://localhost:3333/network/1
+delete http://localhost:3333/network/2
 
 ###
 get http://localhost:3333/network/procesos/19
 
 ###
-get http://localhost:3333/network/reload/12
+get http://localhost:3333/network/reload/2

@@ -1,0 +1,129 @@
+#https://etclabscore.github.io/core-geth/JSON-RPC-API/modules/admin/#admin_exportchain
+POST http://localhost:9586
+Content-Type: application/json
+
+{
+    "jsonrpc": "2.0",
+    "method": "eth_gasPrice",
+    "params": [],
+    "id": 0
+}
+
+###
+POST http://localhost:9586
+Content-Type: application/json
+
+{
+    "jsonrpc": "2.0",
+    "method": "admin_nodeInfo",
+    "params": [],
+    "id": 0
+}
+
+###
+POST http://localhost:9586
+Content-Type: application/json
+
+{
+    "jsonrpc": "2.0",
+    "method": "admin_peers",
+    "params": [],
+    "id": 0
+}
+
+###
+POST http://localhost:9586
+Content-Type: application/json
+
+{
+    "jsonrpc": "2.0",
+    "method": "admin_datadir",
+    "params": [],
+    "id": 0
+}
+###
+POST http://localhost:9586
+Content-Type: application/json
+
+{
+    "jsonrpc": "2.0",
+    "method": "personal_listAccounts",
+    "params": [],
+    "id": 0
+}
+
+###
+POST http://localhost:9586
+Content-Type: application/json
+
+{
+    "jsonrpc": "2.0",
+    "method": "personal_listWallets",
+    "params": [],
+    "id": 0
+}
+
+###
+POST http://localhost:9586
+Content-Type: application/json
+
+{
+    "jsonrpc": "2.0",
+    "method": "personal_sign",
+    "params": ["0x65","0x641bbdd751ef82b0a3323c5e462b81ba4ac7a54f","123456" ],
+    "id": 0
+}
+
+###
+POST http://localhost:9586
+Content-Type: application/json
+
+{
+    "jsonrpc": "2.0",
+    "method": "personal_signTransaction",
+    "params": [{
+        "gas": "0x21000",
+        "gasPrice": "0x20000000000",
+        "from": "0x641bbdd751ef82b0a3323c5e462b81ba4ac7a54f",
+        "to": "0x704765a908962E25626f2bea8CDF96C84DedaA0B",
+        "value": "0xA" ,
+        "nonce":"0x0"
+    },"123456" ],
+    "id": 0
+}
+
+###
+POST http://localhost:9586
+Content-Type: application/json
+
+{
+    "jsonrpc": "2.0",
+    "method": "eth_getBalance",
+    "params": ["0x641bbdd751ef82b0a3323c5e462b81ba4ac7a54f", "0x0" ],
+    "id": 0
+}
+###
+POST http://localhost:9586
+Content-Type: application/json
+
+{"method": "clique_getSnapshot", "params": ["0x0"]}
+
+###
+POST http://localhost:9586
+Content-Type: application/json
+
+{ 
+"jsonrpc": "2.0", 
+"method": "clique_getSigners", 
+"params": ["0x0"]
+}
+
+###
+POST http://localhost:9586
+Content-Type: application/json
+
+{ 
+"jsonrpc": "2.0", 
+"method": "clique_proposals", 
+"params": []
+}
