@@ -1,10 +1,10 @@
 const Web3 = require("web3")
-const web3 = new Web3("http://localhost:9586")
+const web3 = new Web3("http://localhost:9606")
 async function txs() {
     const r = await web3.eth.sendTransaction({
-        from: '0x5dae9e5f5c5ca9cef5ad8b989eb736824feedd3f',
-        to: '0x9041142ec77b2f07032493Bf5e870Ae1D065c6F4',
-        value: '1000000000000000'
+        from: '0x2e0ba6dbe4d1604cda50da6ff1346a63bdf6a334',
+        to: '0xff21E724B7D483fc93708855AbE6ee4f1eD97BF3',
+        value: '1000000000000000000'
     }) 
     console.log(r.blockHash)
     return r;

@@ -1,6 +1,9 @@
-const express = require("express") // https://expressjs.com/
-const cors = require("cors") // https://expressjs.com/en/resources/middleware/cors.html
-const morgan = require("morgan") // https://expressjs.com/en/resources/middleware/morgan.html
+// https://expressjs.com/
+const express = require("express") 
+// https://expressjs.com/en/resources/middleware/cors.html
+const cors = require("cors") 
+// https://expressjs.com/en/resources/middleware/morgan.html
+const morgan = require("morgan") 
 const app = express()
 
 const networks = require("./router-network")
@@ -17,10 +20,6 @@ app.use(express.urlencoded({ extended: true }))
 app.use("/network", networks)
 app.use("/node", node)
 app.use("/faucet", faucet)
-
-
-
-
 
 // ruta not found
 app.use("*", (req, res) =>{
