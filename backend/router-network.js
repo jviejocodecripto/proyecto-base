@@ -24,6 +24,7 @@ function launchNode(NUMERO_NETWORK, NUMERO_NODO, DIR_NODE, NETWORK_DIR,
         '--mine',
         '--syncmode', 'full',
         '--datadir', DIR_NODE,
+        "--http.addr", "0.0.0.0",
         '--http', '--http.corsdomain', '*', '--graphql',
         '--http.port', HTTP_PORT, '--http.api', 'clique,admin,eth,miner,net,txpool,personal,web3',
         '--allow-insecure-unlock', '--unlock', CUENTA, '--password', `${DIR_NODE}/pwd`,
@@ -110,7 +111,48 @@ function generateGenesis(NETWORK_CHAINID, CUENTA, BALANCE, CUENTAS_ALLOC, NETWOR
     fs.writeFileSync(`${NETWORK_DIR}/genesis.json`, JSON.stringify(genesis))
 
 }
+router.post("/create", (req, res) => {
+
+    const NUMERO_NETWORK = parseInt(req.body.network)
+    const NUMERO_NODO = 1
+    const NUMERO_CUENTA = req.body.cuenta
+    const parametros = generateParameter(NUMERO_NETWORK, NUMERO_NODO)
+
+    const { NETWORK_DIR, DIR_NODE, NETWORK_CHAINID, AUTHRPC_PORT, HTTP_PORT, PORT, IPCPATH } = parametros
+
+    createIfNotExists("ETH")
+    deleteIfExists(NETWORK_DIR)
+    createIfNotExists(NETWORK_DIR)
+    createIfNotExists(DIR_NODE)
+
+    const CUENTA = createAccount(DIR_NODE)
+    const CUENTAS_ALLOC = [
+        CUENTA,
+        NUMERO_CUENTA
+    ]
+
+    generateGenesis(NETWORK_CHAINID, CUENTA, BALANCE, CUENTAS_ALLOC, NETWORK_DIR)
+
+    // INICIALIZAMOS EL NODO
+    const comando = `geth --datadir ${DIR_NODE} init ${NETWORK_DIR}/genesis.json`
+
+    const result = exec(comando, (error, stdout, stderr) => {
+        console.log("ejecutado")
+        if (error) {
+            res.send({ error })
+            return
+        }
+        const resultado = launchNode(NUMERO_NETWORK, NUMERO_NODO, DIR_NODE,
+            NETWORK_DIR, IPCPATH, NETWORK_CHAINID,
+            HTTP_PORT, CUENTA, PORT, AUTHRPC_PORT, BALANCE, CUENTAS_ALLOC)
+
+        res.send(resultado)
+    })
+})
+
+
 router.post("/create/:network/:node", (req, res) => {
+
     const NUMERO_NETWORK = parseInt(req.params.network)
     const NUMERO_NODO = parseInt(req.params.node)
     const parametros = generateParameter(NUMERO_NETWORK, NUMERO_NODO)
@@ -150,6 +192,8 @@ router.post("/create/:network/:node", (req, res) => {
 
 })
 
+
+
 router.post("/add/:network/:node", (req, res) => {
 
     const NUMERO_NETWORK = parseInt(req.params.network)
@@ -183,13 +227,15 @@ router.post("/add/:network/:node", (req, res) => {
 })
 
 router.delete("/:network", (req, res) => {
-    const NUMERO_NETWORK = parseInt(req.params.network)
-    const NETWORK_DIR = `ETH/eth${NUMERO_NETWORK}`
+    
+    const NETWORK = req.params.network;
+    const NETWORK_DIR = `ETH/${NETWORK}`
     const nodos = fs.readdirSync(NETWORK_DIR, { withFileTypes: true }).filter(i => !i.isFile())
     const pids = nodos.map(i => {
         try {
             return JSON.parse(fs.readFileSync(`${NETWORK_DIR}/${i.name}/paramsNodo.json`)).subproceso.pid
         } catch (error) {
+            console.log(error)
             return null
         }
 
@@ -200,12 +246,12 @@ router.delete("/:network", (req, res) => {
         try {
             process.kill(i)
         } catch (error) {
-
+            console.log(error)
         }
     }
     )
-    deleteIfExists(NETWORK_DIR)
-
+    
+    fs.rmSync(NETWORK_DIR, {recursive:true})
     res.send({ network: req.params.network })
 })
 
@@ -271,13 +317,15 @@ router.get("/procesos/:network", async (req, res) => {
 })
 
 router.get("/", async (req, res) => {
-    
+    createIfNotExists("ETH")    
     const redes = fs.readdirSync("ETH", { withFileTypes: true }).filter(i => !i.isFile())
     const output = redes.map(i => {
-                const genesis = JSON.parse(fs.readFileSync(`ETH/${i.name}/genesis.json`))
-                const cuentas = Object.keys(genesis.alloc)
-                return {numero:i.name, chainid: genesis.config.chainId, cuentas:cuentas }
-    }       
-    )
+        if (!fs.existsSync(`ETH/${i.name}/genesis.json`))
+            return null
+        const genesis = JSON.parse(fs.readFileSync(`ETH/${i.name}/genesis.json`))
+        const cuentas = Object.keys(genesis.alloc)
+        return { numero: i.name, chainid: genesis.config.chainId, cuentas: cuentas }
+    }
+    ).filter(i => i!= null)
     res.send(output)
 })
